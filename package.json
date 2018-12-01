@@ -1,0 +1,30 @@
+{
+  "name": "bytes-iot-desktop",
+  "version": "0.0.0",
+  "license": "",
+  "productName": "Bytes.io IoT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bytes-io/bytes-iot-desktop.git",
+    "docs": "https://github.com/bytes-io/bytes-iot-desktop/blob/master/README.md"
+  },
+  "bugs": {
+    "url": "https://github.com/bytes-io/bytes-iot-desktop/issues"
+  },
+  "homepage": "https://github.com/bytes-io/bytes-iot-desktop#readme",
+  "scripts": {
+    "dev": "electron-webpack dev",
+    "compile": "electron-webpack",
+    "dist": "npm run compile && electron-builder",
+    "dist:dir": "npm run dist --dir -c.compression=store -c.mac.identity=null"
+  },
+  "dependencies": {
+    "source-map-support": "^0.5.9"
+  },
+  "devDependencies": {
+    "electron": "3.0.10",
+    "electron-builder": "^20.36.2",
+    "electron-webpack": "^2.6.1",
+    "webpack": "^4.26.0"
+  }
+}
