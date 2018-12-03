@@ -14,7 +14,7 @@ class App extends React.Component {
                     <div className="peers ai-c fxw-nw">
                       <div className="peer">
                         <div className="logo">
-                          <img src="assets/static/images/logo.png" alt="" />
+                          <img src="src/assets/images/logo.png" alt="" />
                         </div>
                       </div>
                       <div className="peer peer-greed">
