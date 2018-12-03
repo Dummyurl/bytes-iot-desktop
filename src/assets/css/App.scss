@@ -1,0 +1,11 @@
+/* Main CSS file */
+
+@import 'spec/settings/index.scss';
+@import 'spec/tools/index.scss';
+@import "~bootstrap/scss/bootstrap";
+@import 'spec/index.scss';
+@import 'vendor/index.scss';
+
+
+@import '_example/_example.css';
+

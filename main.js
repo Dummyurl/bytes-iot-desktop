@@ -1,51 +1,59 @@
 'use strict'
 
 const {app, Menu, dialog, shell, BrowserWindow} = require('electron');
-import * as path from 'path'
-import { format as formatUrl } from 'url'
+const path = require('path')
+const url = require('url')
 
-const appDetails = require('../../package.json');
-
-const isDevelopment = process.env.NODE_ENV !== 'production'
-
-// global reference to mainWindow (necessary to prevent window from being garbage collected)
+const appDetails = require('./package.json');
 let mainWindow
+let dev = false
+if (process.defaultApp || /[\\/]electron-prebuilt[\\/]/.test(process.execPath) || /[\\/]electron[\\/]/.test(process.execPath)) {
+  dev = true
+}
 
-function createMainWindow() {
-  const window = new BrowserWindow({
+if (process.platform === 'win32') {
+  app.commandLine.appendSwitch('high-dpi-support', 'true')
+  app.commandLine.appendSwitch('force-device-scale-factor', '1')
+}
+
+function createWindow() {
+  mainWindow = new BrowserWindow({
     width: 1400,
     height: 800,
-    icon: __dirname+'/app/img/bytes-iot.ico',
+    icon: __dirname+'../app/img/bytes-iot.ico',
     title: appDetails.productName
   });
 
-  if (isDevelopment) {
-    window.webContents.openDevTools()
-  }
+  let indexPath
 
-  if (isDevelopment) {
-    window.loadURL(`http://localhost:${process.env.ELECTRON_WEBPACK_WDS_PORT}`)
-  }
-  else {
-    window.loadURL(formatUrl({
-      pathname: path.join(__dirname, 'index.html'),
-      protocol: 'file',
+  if (dev && process.argv.indexOf('--noDevServer') === -1) {
+    indexPath = url.format({
+      protocol: 'http:',
+      host: 'localhost:8080',
+      pathname: 'index.html',
       slashes: true
-    }))
+    })
+  } else {
+    indexPath = url.format({
+      protocol: 'file:',
+      pathname: path.join(__dirname, 'dist', 'index.html'),
+      slashes: true
+    })
   }
 
-  window.on('closed', () => {
+  mainWindow.loadURL(indexPath)
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show()
+  })
+  if (dev) {
+    mainWindow.webContents.openDevTools()
+  }
+
+  mainWindow.on('closed', function() {
     mainWindow = null
   })
 
-  window.webContents.on('devtools-opened', () => {
-    window.focus()
-    setImmediate(() => {
-      window.focus()
-    })
-  })
-
-  //Set native menubar
   var template = [
     {
       label: "&File",
@@ -95,28 +103,19 @@ function createMainWindow() {
       ]
     }
   ];
-
-  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
-
-  return window
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));  
 }
 
-// quit application when all windows are closed
+app.on('ready', createWindow)
+
 app.on('window-all-closed', () => {
-  // on macOS it is common for applications to stay open until the user explicitly quits
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
 
 app.on('activate', () => {
-  // on macOS it is common to re-create a window even after all windows have been closed
   if (mainWindow === null) {
-    mainWindow = createMainWindow()
+    createWindow()
   }
-})
-
-// create main BrowserWindow when electron is ready
-app.on('ready', () => {
-  mainWindow = createMainWindow()
 })
