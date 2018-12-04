@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import Sidebar from './Sidebar'
 import Spinner from './Spinner'
 
-import '../assets/css/App.scss'
+import '../assets/styles/App.scss'
 
 class App extends React.Component {
   render() {

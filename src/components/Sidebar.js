@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 
-import '../assets/css/App.scss'
 import logoPng from '../assets/images/logo.png'
 
 class Sidebar extends React.Component {
