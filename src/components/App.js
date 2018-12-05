@@ -4,6 +4,7 @@ import Sidebar from './Sidebar'
 import Spinner from './Spinner'
 
 import '../assets/styles/App.scss'
+import '../assets/scripts'
 
 class App extends React.Component {
   render() {
