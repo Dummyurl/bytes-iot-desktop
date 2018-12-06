@@ -4,9 +4,13 @@ import Sidebar from './Sidebar'
 import Spinner from './Spinner'
 
 import '../assets/styles/App.scss'
-import '../assets/scripts'
 
 class App extends React.Component {
+  componentDidMount() {
+    document.body.classList.add('app');
+    require('../assets/scripts')
+  }
+
   render() {
     return (
       <div>

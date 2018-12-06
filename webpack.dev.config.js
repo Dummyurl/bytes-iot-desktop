@@ -11,7 +11,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.scss$/,
+        test: /\.(scss|css)$/,
         use: [{ loader: 'style-loader' },
         {
           loader: 'css-loader',
@@ -39,8 +39,7 @@ module.exports = {
               path.join(path.join(__dirname, 'src'), ''),
             ],
           },
-        }],
-        include: defaultInclude
+        }]
       },
       {
         test: /\.jsx?$/,
