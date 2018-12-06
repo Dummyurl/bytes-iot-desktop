@@ -5,6 +5,8 @@ const path = require('path')
 const url = require('url')
 
 const appDetails = require('./package.json');
+const wifi = require('./services/wifi');
+
 let mainWindow
 let dev = false
 if (process.defaultApp || /[\\/]electron-prebuilt[\\/]/.test(process.execPath) || /[\\/]electron[\\/]/.test(process.execPath)) {
@@ -54,7 +56,7 @@ function createWindow() {
     mainWindow = null
   })
 
-  var template = [
+  const template = [
     {
       label: "&File",
       submenu: [

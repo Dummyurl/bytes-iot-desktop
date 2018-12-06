@@ -1,7 +1,40 @@
 import React, { Component } from 'react'
+const { ipcRenderer } = require('electron');
 
-class Main extends React.Component {
+class MainContainer extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      selectedNetwork: null,
+      deviceInfo: null,
+      loading: false,
+      error: null
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const selectedNetwork = nextProps.selectedNetwork
+
+    if (selectedNetwork && selectedNetwork !== '') {
+      this.setState({ deviceInfo: null })
+      this.setState({ loading: true })
+
+      ipcRenderer.on('connect-network-resp', (event, error, deviceInfo) => {
+        if(error) {
+          console.log("Error connecting to",selectedNetwork, error)
+          this.setState({ selectedNetwork: null, loading: false, error})
+          return
+        }
+        this.setState({ deviceInfo })
+        this.setState({ loading: false })
+      })
+      ipcRenderer.send('connect-network', {ssid: selectedNetwork});
+    }
+  }
+
   render() {
+    const { selectedNetwork, deviceInfo, loading, error } = this.state
+
     return (
       <main className='main-content bgc-grey-100'>
         <div id='mainContent'>
@@ -14,7 +47,7 @@ class Main extends React.Component {
                     <div className="layer w-100 mB-10">
                       <h6 className="lh-1">Device description</h6>
                     </div>
-                    A great raspberry pie.
+                    {deviceInfo}
                   </div>
                 </div>
               </div>
@@ -210,4 +243,4 @@ class Main extends React.Component {
   }
 }
 
-export default Main
+export default MainContainer

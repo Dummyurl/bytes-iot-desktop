@@ -1,7 +1,31 @@
 import React, { Component } from 'react'
 
 class Header extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      selectedNetwork: ''
+    }
+
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange(event) {
+    const selectedNetwork = event.target.value
+
+    this.setState({ selectedNetwork })
+    this.props.onSelect(null, selectedNetwork)
+  }
+
+  renderSelectOptions(item) {
+    return (
+      <option key={item.ssid} value={item.ssid}>{item.ssid}</option>
+    )
+  }
+
   render() {
+    const { bytesNetworks = [] } = this.props
+
     return (
       <div className="header navbar">
         <div className="header-container">
@@ -13,11 +37,9 @@ class Header extends React.Component {
             </li>
             <li>
               <form className="was-validated">
-                <select className="custom-select" required>
-                  <option value="">Device</option>
-                  <option value="1">Raspbery Pie - 00:80:41:ae:fd:7e</option>
-                  <option value="2">Lenovo T400s - 00:80:41:ae:fd:7e</option>
-                  <option value="3">Three</option>
+                <select className="custom-select" onChange={this.handleChange}>>
+                  <option value="">Select Network</option>
+                  {bytesNetworks.map(this.renderSelectOptions)}
                 </select>
                 <div className="invalid-feedback">Please select a device</div>
               </form>
