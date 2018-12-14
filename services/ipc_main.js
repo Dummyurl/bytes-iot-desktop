@@ -17,11 +17,11 @@ ipcMain.on('get-bytes-networks', async (event, arg) => {
 });
 
 ipcMain.on('connect-network', async (event, arg) => {
-  let interface;
+  let gatewayIp;
   try {
-    interface = await wifi.connect(null, arg.ssid, '123456789');
+    gatewayIp = await wifi.connect(null, arg.ssid, '123456789');
   } catch (err) {
     event.sender.send('connect-network-resp', err, null);
   }
-  event.sender.send('connect-network-resp', null, interface);
+  event.sender.send('connect-network-resp', null, gatewayIp);
 });

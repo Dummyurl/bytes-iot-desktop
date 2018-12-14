@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-const { ipcRenderer } = require('electron');
+import { ipcRenderer } from 'electron'
+import axios from 'axios'
 
 class MainContainer extends React.Component {
   constructor(props) {
@@ -7,33 +8,75 @@ class MainContainer extends React.Component {
     this.state = {
       selectedNetwork: null,
       deviceInfo: null,
+      deviceState: null,
+      gatewayIp: null,
       loading: false,
       error: null
     }
+
+    this.handleDeviceStateChange = this.handleDeviceStateChange.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
     const selectedNetwork = nextProps.selectedNetwork
 
     if (selectedNetwork && selectedNetwork !== '') {
+      this.setState({ gatewayIp: null })
       this.setState({ deviceInfo: null })
+      this.setState({ deviceState: null })
       this.setState({ loading: true })
 
-      ipcRenderer.on('connect-network-resp', (event, error, deviceInfo) => {
+      ipcRenderer.on('connect-network-resp', async (event, error, gatewayIp) => {
         if(error) {
           console.log("Error connecting to",selectedNetwork, error)
           this.setState({ selectedNetwork: null, loading: false, error})
           return
         }
+
+        const deviceInfo = await getDeviceInfo(gatewayIp)
+        const deviceState = await getDeviceState()
+
+        this.setState({ gatewayIp })
         this.setState({ deviceInfo })
+        this.setState({ deviceState })
         this.setState({ loading: false })
       })
       ipcRenderer.send('connect-network', {ssid: selectedNetwork});
     }
   }
 
+  async getDeviceInfo(gatewayIp) {
+    const response = axios.get(`http://${gatewayIp}/device-info`)
+    return response.data
+  }
+
+  async getDeviceState(gatewayIp) {
+    const response = axios.get(`http://${gatewayIp}/device-state`)
+    return response.data.state
+  }
+
+  renderDeviceInfo(deviceInfo) {
+    return (
+      <div>
+        <div>Gateway IP: {deviceInfo.gateway_ip}</div>
+        <div>Interface: {deviceInfo.name}</div>
+        <div>Mac Address: {deviceInfo.mac_address}</div>
+        <div>Netmask: {deviceInfo.netmask}</div>
+        <div>Connection Type: {deviceInfo.type}</div>
+      </div>
+    )
+  }
+
+  handleDeviceStateChange(event) {
+    this.setState({
+      deviceState: event.target.value
+    });
+  }
+  
+
   render() {
-    const { selectedNetwork, deviceInfo, loading, error } = this.state
+    const { selectedNetwork, deviceInfo, gatewayIp, loading, error } = this.state
+    console.log({deviceInfo})
 
     return (
       <main className='main-content bgc-grey-100'>
@@ -47,7 +90,7 @@ class MainContainer extends React.Component {
                     <div className="layer w-100 mB-10">
                       <h6 className="lh-1">Device description</h6>
                     </div>
-                    {deviceInfo && deviceInfo.gateway_ip}
+                    {deviceInfo && this.renderDeviceInfo(deviceInfo)}
                   </div>
                 </div>
               </div>
@@ -65,19 +108,34 @@ class MainContainer extends React.Component {
                         <div className="col-sm-12">
                           <div className="form-check">
                             <label className="form-check-label">
-                            <input className="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked />
+                            <input className="form-check-input" type="radio"
+                              name="deviceMode"
+                              id="deviceModeSell"
+                              value="sell"
+                              checked={this.state.deviceState === 'sell'}
+                              onChange={this.handleDeviceStateChange} />
                             Share connectivity
                             </label>
                           </div>
                           <div className="form-check">
                             <label className="form-check-label">
-                            <input className="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2" />
+                            <input className="form-check-input" type="radio"
+                              name="deviceMode"
+                              id="deviceModeBuy"
+                              value="buy"
+                              checked={this.state.deviceState === 'buy'}
+                              onChange={this.handleDeviceStateChange} />
                             Buy connectivity
                             </label>
                           </div>
                           <div className="form-check">
                             <label className="form-check-label">
-                            <input className="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2" />
+                            <input className="form-check-input" type="radio"
+                              name="deviceMode"
+                              id="deviceModeIdle"
+                              value="idle"
+                              checked={this.state.deviceState === 'idle'}
+                              onChange={this.handleDeviceStateChange} />
                             Idle
                             </label>
                           </div>

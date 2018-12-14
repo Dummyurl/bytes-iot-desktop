@@ -25,6 +25,7 @@
     "postpackage": "electron-packager ./ --out=./builds"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "bootstrap": "^4.1.3",
     "bootstrap-datepicker": "^1.8.0",
