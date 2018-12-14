@@ -5,7 +5,7 @@ const path = require('path')
 const url = require('url')
 
 const appDetails = require('./package.json');
-const wifi = require('./services/wifi');
+require('./services/ipc_main');
 
 let mainWindow
 let dev = false

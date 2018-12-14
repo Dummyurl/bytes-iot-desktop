@@ -4,7 +4,7 @@ class Spinner extends React.Component {
   render() {
     return (
       <div id='loader'>
-        <div class="spinner"></div>
+        <div className="spinner"></div>
       </div>
     )
   }
