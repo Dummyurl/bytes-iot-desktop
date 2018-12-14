@@ -68,17 +68,19 @@ class MainContainer extends React.Component {
     )
   }
 
-  handleDeviceStateChange(event) {
+  async handleDeviceStateChange(event) {
     const deviceState = event.target.value
+
+    let response
     if(deviceState === 'sell') {
-      axios.get(`http://${this.state.gatewayIp}:3000/start-selling`)
+      response = await axios.get(`http://${this.state.gatewayIp}:3000/start-selling`)
     } else if(deviceState === 'buy') {
-      axios.get(`http://${this.state.gatewayIp}:3000/stop-selling`)
-      axios.get(`http://${this.state.gatewayIp}:3000/buy`)
+      await axios.get(`http://${this.state.gatewayIp}:3000/stop-selling`)
+      response = await axios.get(`http://${this.state.gatewayIp}:3000/buy`)
     } else {
-      axios.get(`http://${this.state.gatewayIp}:3000/start-selling`)
+      response = await axios.get(`http://${this.state.gatewayIp}:3000/stop-selling`)
     }
-    this.setState({deviceState});
+    this.setState({deviceState: response.data.state});
   }
   
 
