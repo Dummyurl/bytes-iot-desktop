@@ -19,7 +19,7 @@ ipcMain.on('get-bytes-networks', async (event, arg) => {
 ipcMain.on('connect-network', async (event, arg) => {
   let interface;
   try {
-    interface = await wifi.connect(null, arg.ssid, '12346789');
+    interface = await wifi.connect(null, arg.ssid, '123456789');
   } catch (err) {
     event.sender.send('connect-network-resp', err, null);
   }

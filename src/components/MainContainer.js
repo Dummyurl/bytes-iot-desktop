@@ -47,7 +47,7 @@ class MainContainer extends React.Component {
                     <div className="layer w-100 mB-10">
                       <h6 className="lh-1">Device description</h6>
                     </div>
-                    {deviceInfo}
+                    {deviceInfo && deviceInfo.gateway_ip}
                   </div>
                 </div>
               </div>
