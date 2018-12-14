@@ -33,8 +33,8 @@ class MainContainer extends React.Component {
           return
         }
 
-        const deviceInfo = await getDeviceInfo(gatewayIp)
-        const deviceState = await getDeviceState()
+        const deviceInfo = await this.getDeviceInfo(gatewayIp)
+        const deviceState = await this.getDeviceState(gatewayIp)
 
         this.setState({ gatewayIp })
         this.setState({ deviceInfo })
@@ -46,12 +46,13 @@ class MainContainer extends React.Component {
   }
 
   async getDeviceInfo(gatewayIp) {
-    const response = axios.get(`http://${gatewayIp}/device-info`)
+    const response = await axios.get(`http://${gatewayIp}:3000/device-info`)
+    console.log(response)
     return response.data
   }
 
   async getDeviceState(gatewayIp) {
-    const response = axios.get(`http://${gatewayIp}/device-state`)
+    const response = await axios.get(`http://${gatewayIp}:3000/device-state`)
     return response.data.state
   }
 
@@ -68,9 +69,16 @@ class MainContainer extends React.Component {
   }
 
   handleDeviceStateChange(event) {
-    this.setState({
-      deviceState: event.target.value
-    });
+    const deviceState = event.target.value
+    if(deviceState === 'sell') {
+      axios.get(`http://${this.state.gatewayIp}:3000/start-selling`)
+    } else if(deviceState === 'buy') {
+      axios.get(`http://${this.state.gatewayIp}:3000/stop-selling`)
+      axios.get(`http://${this.state.gatewayIp}:3000/buy`)
+    } else {
+      axios.get(`http://${this.state.gatewayIp}:3000/start-selling`)
+    }
+    this.setState({deviceState});
   }
   
 
