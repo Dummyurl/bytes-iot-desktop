@@ -12,8 +12,8 @@ ipcMain.on('get-bytes-networks', (event, arg) => {
   WiFiControl.scanForWiFi(function(err, response) {
     if (err) console.log(err);
     
-    // const bytesAps = response.networks.filter(n => /bytes-.+/g.test(n.ssid))
-    const bytesAps = response.networks
+    const bytesAps = response.networks.filter(n => /bytes-.+/g.test(n.ssid))
+    // const bytesAps = response.networks
   
     console.log('Found Bytes networks: ', bytesAps)
     event.sender.send('get-bytes-networks-resp', err, bytesAps);

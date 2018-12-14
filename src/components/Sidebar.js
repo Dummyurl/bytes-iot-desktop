@@ -14,7 +14,7 @@ class Sidebar extends React.Component {
                   <div className="peers ai-c fxw-nw">
                     <div className="peer">
                       <div className="logo">
-                        <img src={logoPng} alt="" />
+                        <img src={logoPng} alt="" height="65px" />
                       </div>
                     </div>
                     <div className="peer peer-greed">
