@@ -1,6 +1,12 @@
 import React, { Component } from 'react'
 import { ipcRenderer } from 'electron'
 import axios from 'axios'
+import Slider, { createSliderWithTooltip } from 'rc-slider';
+
+import 'rc-slider/assets/index.css';
+import 'rc-tooltip/assets/bootstrap.css';
+
+const SliderWithTooltip = createSliderWithTooltip(Slider);
 
 class MainContainer extends React.Component {
   constructor(props) {
@@ -10,11 +16,16 @@ class MainContainer extends React.Component {
       deviceInfo: null,
       deviceState: null,
       gatewayIp: null,
+      walletData: null,
+      askPrice: 3,
+      bidPrice: 3,
       loading: false,
       error: null
     }
 
-    this.handleDeviceStateChange = this.handleDeviceStateChange.bind(this)
+    this.onDeviceStateChange = this.onDeviceStateChange.bind(this)
+    this.onAskPriceChange = this.onAskPriceChange.bind(this)
+    this.onBidPriceChange = this.onBidPriceChange.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -24,6 +35,7 @@ class MainContainer extends React.Component {
       this.setState({ gatewayIp: null })
       this.setState({ deviceInfo: null })
       this.setState({ deviceState: null })
+      this.setState({ walletData: null })
       this.setState({ loading: true })
 
       ipcRenderer.on('connect-network-resp', async (event, error, gatewayIp) => {
@@ -35,10 +47,12 @@ class MainContainer extends React.Component {
 
         const deviceInfo = await this.getDeviceInfo(gatewayIp)
         const deviceState = await this.getDeviceState(gatewayIp)
+        const walletData = await this.getWalletData(gatewayIp)
 
         this.setState({ gatewayIp })
         this.setState({ deviceInfo })
         this.setState({ deviceState })
+        this.setState({ walletData })
         this.setState({ loading: false })
       })
       ipcRenderer.send('connect-network', {ssid: selectedNetwork});
@@ -56,6 +70,11 @@ class MainContainer extends React.Component {
     return response.data.state
   }
 
+  async getWalletData(gatewayIp) {
+    const response = await axios.get(`http://${gatewayIp}:3000/wallet/data`)
+    return response.data
+  }
+
   renderDeviceInfo(deviceInfo) {
     return (
       <div>
@@ -68,7 +87,7 @@ class MainContainer extends React.Component {
     )
   }
 
-  async handleDeviceStateChange(event) {
+  async onDeviceStateChange(event) {
     const deviceState = event.target.value
 
     let response
@@ -82,10 +101,30 @@ class MainContainer extends React.Component {
     }
     this.setState({deviceState: response.data.state});
   }
-  
+
+  onAskPriceChange(value) {
+    this.setState({
+      askPrice: value
+    });
+  }
+
+  onBidPriceChange(value) {
+    this.setState({
+      bidPrice: value
+    });
+  }
 
   render() {
-    const { selectedNetwork, deviceInfo, gatewayIp, loading, error } = this.state
+    const {
+      selectedNetwork,
+      deviceInfo,
+      gatewayIp,
+      walletData,
+      askPrice,
+      bidPrice,
+      loading,
+      error
+    } = this.state
     console.log({deviceInfo})
 
     return (
@@ -123,7 +162,7 @@ class MainContainer extends React.Component {
                               id="deviceModeSell"
                               value="sell"
                               checked={this.state.deviceState === 'sell'}
-                              onChange={this.handleDeviceStateChange} />
+                              onChange={this.onDeviceStateChange} />
                             Share connectivity
                             </label>
                           </div>
@@ -134,7 +173,7 @@ class MainContainer extends React.Component {
                               id="deviceModeBuy"
                               value="buy"
                               checked={this.state.deviceState === 'buy'}
-                              onChange={this.handleDeviceStateChange} />
+                              onChange={this.onDeviceStateChange} />
                             Buy connectivity
                             </label>
                           </div>
@@ -145,7 +184,7 @@ class MainContainer extends React.Component {
                               id="deviceModeIdle"
                               value="idle"
                               checked={this.state.deviceState === 'idle'}
-                              onChange={this.handleDeviceStateChange} />
+                              onChange={this.onDeviceStateChange} />
                             Idle
                             </label>
                           </div>
@@ -161,17 +200,14 @@ class MainContainer extends React.Component {
                           </div>
                           <form>
                             <div className="form-group">
-                              <label for="customRange3">Ask price:</label>
-                              <input type="range" className="custom-range" min="0" value="1" max="5" step="0.5" id="askRange" />
+                              <label for="customRange3">Ask price: ${askPrice}</label>
+                              <Slider min={0} max={5} defaultValue={askPrice} onChange={this.onAskPriceChange} />
                             </div>
                           </form>
                           <form>
                             <div className="form-group">
-                              <label for="formControlRange">Bid price:</label>
-                              <input type="range" className="custom-range" min="0" max="5" step="0.5"
-                                onchange="showBidPrice(this.value)"
-                                id="bidRange" />
-                              {/* <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/> */}
+                              <label for="formControlRange">Bid price: ${bidPrice}</label>
+                              <Slider min={0} max={5} defaultValue={bidPrice} onChange={this.onBidPriceChange} />
                             </div>
                           </form>
                           {/* <hr></hr>
