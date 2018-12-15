@@ -149,12 +149,12 @@ class MainContainer extends React.Component {
                             Idle
                             </label>
                           </div>
-                          <div className="alert alert-success collapse" role="alert">
+                          {/* <div className="alert alert-success collapse" role="alert">
                             Device is currently connected to a buyer/seller. 
                           </div>
                           <div className="alert alert-info" role="alert">
                             Device is looking for a buyer/seller.
-                          </div>
+                          </div> */}
                           <hr></hr>
                           <div className="layer w-100 mB-10">
                             <h6 className="lh-1"> Price </h6>
@@ -162,25 +162,28 @@ class MainContainer extends React.Component {
                           <form>
                             <div className="form-group">
                               <label for="customRange3">Ask price:</label>
-                              <input type="range" className="custom-range" min="0" max="5" step="0.5" id="customRange3" />
+                              <input type="range" className="custom-range" min="0" value="1" max="5" step="0.5" id="askRange" />
                             </div>
                           </form>
                           <form>
                             <div className="form-group">
                               <label for="formControlRange">Bid price:</label>
-                              <input type="range" className="form-control-range" id="formControlRange" />
+                              <input type="range" className="custom-range" min="0" max="5" step="0.5"
+                                onchange="showBidPrice(this.value)"
+                                id="bidRange" />
+                              {/* <input id="ex1" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/> */}
                             </div>
                           </form>
-                          <hr></hr>
+                          {/* <hr></hr>
                           <div className="layer w-100 mB-10">
                             <h6 className="lh-1"> Bandwidth Usage </h6>
                           </div>
                           <form>
                             <div className="form-group">
                               <label for="formControlRange">Throttle:</label>
-                              <input type="range" className="form-control-range" id="formControlRange" />
+                              <input type="range" className="custom-range" min="0" max="5" value="4" step="0.5" id="throttleRange" disabled/>
                             </div>
-                          </form>
+                          </form> */}
                         </div>
                       </div>
                     </div>
@@ -195,25 +198,28 @@ class MainContainer extends React.Component {
                       <div className="peers ai-sb fxw-nw">
                         <div className="peer peer-greed">
                           Balance: 10 dollars.
-                        </div>
+                        </div> 
                         <div className="peer">
                           <span className="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">+10%</span>
                         </div>
                       </div>
                     </div>
                     
-                    <hr></hr>
+                    <hr/>
+
                     <div className="layer w-100 mB-10">
                       <h6 className="lh-1"> Deposit </h6>
                       <div className="form-group">
-                        Device Adress: XYZ <br />
-                        <button onclick="myFunction()">Copy </button>
+                        Device Adress: XYZ 
+                        <button style={{float: "right"}} onclick="myFunction()" type="button" class="btn btn-light">Copy</button>
                       </div>
+                      <hr/>
+
                       <h6 className="lh-1"> Withdraw </h6>
                       <div className="form-group">
                         Beneficiary: <input type="text" value="" id="myInput" />  <br />
-                        Amount: <input type="text" value="" id="myInput" /> <br />
-                        <button onclick="myFunction()">Send </button>
+                        Amount:     <input type="text" style={{marginLeft: "23px"}} value="" id="myInput" /> 
+                        <button style={{float: "right"}} onclick="myFunction()" type="button" class="btn btn-light">Send</button>
                       </div>
                       <a href="#">Visualise past activity.</a>
                     </div>
@@ -240,23 +246,26 @@ class MainContainer extends React.Component {
                             </thead>
                             <tbody>
                               <tr>
-                                <td className="fw-600">Rasp Pie</td>
-                                <td><span className="badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill">Defect</span> </td>
-                                <td> Nov 18</td>
+                                <td className="fw-600">Rasp Pie 1</td>
+                                <td><span className="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">Connectd</span></td>
+                                <td> Dec 15</td>
                                 <td><span className="text-success">Medium</span></td>
                               </tr>
                               <tr>
-                                <td className="fw-600">Rasp Pie 3</td>
+                                <td className="fw-600">Rasp Pie 2</td>
                                 <td><span className="badge bgc-deep-purple-50 c-deep-purple-700 p-10 lh-0 tt-c badge-pill">New</span></td>
-                                <td>Nov 19</td>
-                                <td><span className="text-info">Bad</span></td>
+                                <td>Dec 15</td>
+                                <td><span className="text-success">Good</span></td>
+
                               </tr>
-                              <tr>
+                              {/* <tr>
                                 <td className="fw-600">Rasp Pie 3</td>
-                                <td><span className="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">Connectd</span></td>
+                                <td><span className="badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill">Defect</span> </td>
+                                <td><span className="badge bgc-red-50 c-red-700 p-10 lh-0 tt-c badge-pill">Defect</span> </td>
                                 <td>Nov 21</td>
                                 <td><span className="text-success">Good</span></td>
-                              </tr>
+                                <td><span className="text-info">Bad</span></td>
+                              </tr> */}
                             </tbody>
                           </table>
                         </div>

@@ -13,6 +13,7 @@ import './email';
 import './fullcalendar';
 import './googleMaps';
 import './utils';
+import './ion-rangeslider';
 
 console.log('Loaded vendor main scripts')
 
@@ -29,3 +30,6 @@ window.addEventListener('load', () => {
   }, 300);
 });
 
+window.showBidPrice = function showBidPrice (bidPrice) {
+  console.log({bidPrice})
+}

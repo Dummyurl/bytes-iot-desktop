@@ -41,41 +41,6 @@ class Sidebar extends React.Component {
               <span className="title">Dashboard</span>
               </a>
             </li>
-            <li className="nav-item">
-              <a className='sidebar-link' href="forms.html">
-              <span className="icon-holder">
-              <i className="c-light-blue-500 ti-pencil"></i>
-              </span>
-              <span className="title">Forms</span>
-              </a>
-            </li>
-            <li className="nav-item dropdown">
-              <a className="sidebar-link" href="ui.html">
-              <span className="icon-holder">
-              <i className="c-pink-500 ti-palette"></i>
-              </span>
-              <span className="title">UI Elements</span>
-              </a>
-            </li>
-            <li className="nav-item dropdown">
-              <a className="dropdown-toggle" href="javascript:void(0);">
-              <span className="icon-holder">
-              <i className="c-orange-500 ti-layout-list-thumb"></i>
-              </span>
-              <span className="title">Tables</span>
-              <span className="arrow">
-              <i className="ti-angle-right"></i>
-              </span>
-              </a>
-              <ul className="dropdown-menu">
-                <li>
-                  <a className='sidebar-link' href="basic-table.html">Basic Table</a>
-                </li>
-                <li>
-                  <a className='sidebar-link' href="datatable.html">Data Table</a>
-                </li>
-              </ul>
-            </li>
           </ul>
         </div>
       </div>
