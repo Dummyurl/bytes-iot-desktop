@@ -52,7 +52,7 @@ class Header extends React.Component {
               {/* <span className="counter bgc-red">3</span> */}
               <a href="" className="dropdown-toggle no-after" data-toggle="dropdown">
                 <div className="logo">
-                  <img src={logoPng} alt="" height="25px" marginBottom="50px" />
+                  <img src={logoPng} alt="" height="30px" marginBottom="50px" />
                 </div>
               </a>
               <ul className="dropdown-menu">
