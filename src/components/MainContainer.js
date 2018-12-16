@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import { ipcRenderer } from 'electron'
 import axios from 'axios'
-import Slider, { createSliderWithTooltip } from 'rc-slider';
+import Slider from 'rc-slider';
 
 import 'rc-slider/assets/index.css';
 import 'rc-tooltip/assets/bootstrap.css';
-
-const SliderWithTooltip = createSliderWithTooltip(Slider);
 
 class MainContainer extends React.Component {
   constructor(props) {
@@ -125,7 +123,6 @@ class MainContainer extends React.Component {
       loading,
       error
     } = this.state
-    console.log({deviceInfo})
 
     return (
       <main className='main-content bgc-grey-100'>
