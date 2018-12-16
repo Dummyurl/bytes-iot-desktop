@@ -59,7 +59,6 @@ class MainContainer extends React.Component {
 
   async getDeviceInfo(gatewayIp) {
     const response = await axios.get(`http://${gatewayIp}:3000/device-info`)
-    console.log(response)
     return response.data
   }
 
@@ -70,7 +69,10 @@ class MainContainer extends React.Component {
 
   async getWalletData(gatewayIp) {
     const response = await axios.get(`http://${gatewayIp}:3000/wallet/data`)
-    return response.data
+    // console.log(response)
+    // const data = JSON.parse(response.data)
+    // console.log(data)
+    return response.data.accountData
   }
 
   renderDeviceInfo(deviceInfo) {
@@ -123,6 +125,7 @@ class MainContainer extends React.Component {
       loading,
       error
     } = this.state
+    console.log(walletData, walletData && walletData.balance)
 
     return (
       <main className='main-content bgc-grey-100'>
@@ -230,7 +233,7 @@ class MainContainer extends React.Component {
                     <div className="layer w-100">
                       <div className="peers ai-sb fxw-nw">
                         <div className="peer peer-greed">
-                          Balance: 10 dollars.
+                          Balance: {walletData && walletData.balance}i
                         </div> 
                         <div className="peer">
                           <span className="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">+10%</span>
@@ -243,7 +246,7 @@ class MainContainer extends React.Component {
                     <div className="layer w-100 mB-10">
                       <h6 className="lh-1"> Deposit </h6>
                       <div className="form-group">
-                        Device Adress: XYZ 
+                        Device Adress: {walletData && walletData.latestAddress} 
                         <button style={{float: "right"}} onclick="myFunction()" type="button" class="btn btn-light">Copy</button>
                       </div>
                       <hr/>
@@ -254,7 +257,7 @@ class MainContainer extends React.Component {
                         Amount:     <input type="text" style={{marginLeft: "23px"}} value="" id="myInput" /> 
                         <button style={{float: "right"}} onclick="myFunction()" type="button" class="btn btn-light">Send</button>
                       </div>
-                      <a href="#">Visualise past activity.</a>
+                      <a target="_blank" href="https://thetangle.org/address/">Visualise past activity.</a>
                     </div>
                   </div>
                 </div>
