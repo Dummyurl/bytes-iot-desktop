@@ -236,7 +236,7 @@ class MainContainer extends React.Component {
                           Balance: {walletData && walletData.balance}i
                         </div> 
                         <div className="peer">
-                          <span className="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">+10%</span>
+                          {/* <span className="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">+10%</span> */}
                         </div>
                       </div>
                     </div>
@@ -244,9 +244,9 @@ class MainContainer extends React.Component {
                     <hr/>
 
                     <div className="layer w-100 mB-10">
-                      <h6 className="lh-1"> Deposit </h6>
+                      <h6 className="lh-1"> Device Address </h6>
                       <div className="form-group">
-                        Device Adress: {walletData && walletData.latestAddress} 
+                        {walletData && (walletData.latestAddress).substring(0, 8)}... 
                         <button style={{float: "right"}} onclick="myFunction()" type="button" class="btn btn-light">Copy</button>
                       </div>
                       <hr/>
@@ -283,7 +283,7 @@ class MainContainer extends React.Component {
                             <tbody>
                               <tr>
                                 <td className="fw-600">Rasp Pie 1</td>
-                                <td><span className="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">Connectd</span></td>
+                                <td><span className="badge bgc-green-50 c-green-700 p-10 lh-0 tt-c badge-pill">Connected</span></td>
                                 <td> Dec 15</td>
                                 <td><span className="text-success">Medium</span></td>
                               </tr>
