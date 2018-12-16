@@ -7,3 +7,6 @@ A simple electron app to monitor and configure your IoT devices.
 npm install
 npm start
 ```
+## Hardware
+
+We worked with RaspPi 3, Linux, Electron, Javascript. 
