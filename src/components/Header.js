@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import logoPng from '../assets/images/Group.png'
 
 class Header extends React.Component {
   constructor(props) {
@@ -46,8 +47,28 @@ class Header extends React.Component {
             </li>
           </ul>
           <ul className="nav-right">
+
             <li className="notifications dropdown">
               {/* <span className="counter bgc-red">3</span> */}
+              <a href="" className="dropdown-toggle no-after" data-toggle="dropdown">
+                <div className="logo">
+                  <img src={logoPng} alt="" height="25px" marginBottom="50px" />
+                </div>
+              </a>
+              <ul className="dropdown-menu">
+                <li className="pX-20 pY-15 bdB">
+                  <i className="ti-bell pR-10"></i>
+                  <span className="fsz-sm fw-600 c-grey-900">Notifications</span>
+                </li>
+                <li className="pX-20 pY-15 ta-c bdT">
+                  <span>
+                  <a href="" className="c-grey-600 cH-blue fsz-sm td-n">View All Notifications <i className="ti-angle-right fsz-xs mL-10"></i></a>
+                  </span>
+                </li>
+              </ul>
+            </li>
+
+            {/* <li className="notifications dropdown">
               <a href="" className="dropdown-toggle no-after" data-toggle="dropdown">
               <i className="ti-bell"></i>
               </a>
@@ -62,7 +83,8 @@ class Header extends React.Component {
                   </span>
                 </li>
               </ul>
-            </li>
+            </li> */}
+
           </ul>
         </div>
       </div>
