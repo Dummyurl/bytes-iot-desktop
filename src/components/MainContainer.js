@@ -69,9 +69,6 @@ class MainContainer extends React.Component {
 
   async getWalletData(gatewayIp) {
     const response = await axios.get(`http://${gatewayIp}:3000/wallet/data`)
-    // console.log(response)
-    // const data = JSON.parse(response.data)
-    // console.log(data)
     return response.data.accountData
   }
 
@@ -84,6 +81,40 @@ class MainContainer extends React.Component {
         <div>Netmask: {deviceInfo.netmask}</div>
         <div>Connection Type: {deviceInfo.type}</div>
       </div>
+    )
+  }
+
+  getTxLink(hash) {
+    return `https://thetangle.org/transaction/${hash}`
+  }
+
+  renderTxTable(walletData) {
+    let transfers = walletData && walletData.transfers
+    transfers = transfers || []
+
+    return (
+      <table id="dataTable" className="table table-striped table-bordered" cellspacing="0" width="100%">
+      <thead>
+        <tr>
+          <th>From/To</th>
+          <th>Amount</th>
+          <th>Status</th>
+          <th>Hash</th>
+        </tr>
+      </thead>
+      <tbody>
+        {transfers.map(tx => {
+          return (
+            <tr>
+              <td>{tx[0].address.substring(0, 8)}...</td>
+              <td>${tx[0].value}</td>
+              <td>Pending</td>
+              <td><a target="_blank" href={this.getTxLink(tx[0].hash)}>{tx[0].hash.substring(0, 8)}...</a></td>
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
     )
   }
 
@@ -125,7 +156,6 @@ class MainContainer extends React.Component {
       loading,
       error
     } = this.state
-    console.log(walletData, walletData && walletData.balance)
 
     return (
       <main className='main-content bgc-grey-100'>
@@ -246,7 +276,7 @@ class MainContainer extends React.Component {
                     <div className="layer w-100 mB-10">
                       <h6 className="lh-1"> Device Address </h6>
                       <div className="form-group">
-                        {walletData && (walletData.latestAddress).substring(0, 8)}... 
+                        {walletData && (walletData.latestAddress).substring(0, 26)}... 
                         <button style={{float: "right"}} onclick="myFunction()" type="button" class="btn btn-light">Copy</button>
                       </div>
                       <hr/>
@@ -315,36 +345,7 @@ class MainContainer extends React.Component {
                 <div className="col-md-6">
                   <div className="bgc-white bd bdrs-3 p-20 mB-20">
                     <h4 className="c-grey-900 mB-20">Transactions Table</h4>
-                    <table id="dataTable" className="table table-striped table-bordered" cellspacing="0" width="100%">
-                      <thead>
-                        <tr>
-                          <th>From/To</th>
-                          <th>Amount</th>
-                          <th>Status</th>
-                          <th>Hash</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>x0323</td>
-                          <td>.032$</td>
-                          <td>Confirmed</td>
-                          <td>612dsqdqd232</td>
-                        </tr>
-                        <tr>
-                          <td>x0323</td>
-                          <td>.032$</td>
-                          <td>Confirmed</td>
-                          <td>612dsqdqd232</td>
-                        </tr>
-                        <tr>
-                          <td>x0323</td>
-                          <td>.032$</td>
-                          <td>Confirmed</td>
-                          <td>612dsqdqd232</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    {this.renderTxTable(walletData)}
                   </div>
                 </div>
               </div>
