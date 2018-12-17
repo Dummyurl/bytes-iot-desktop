@@ -18,7 +18,7 @@ class Sidebar extends React.Component {
                       </div>
                     </div>
                     <div className="peer peer-greed">
-                      <h5 className="lh-1 mB-0 logo-text">Adminator</h5>
+                      <h5 className="lh-1 mB-0 logo-text">Bytes.io</h5>
                     </div>
                   </div>
                 </a>
