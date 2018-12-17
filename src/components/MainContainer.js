@@ -30,7 +30,7 @@ class MainContainer extends React.Component {
     const selectedNetwork = nextProps.selectedNetwork
 
     if (selectedNetwork && selectedNetwork !== '') {
-      this.setState({ gatewayIp: null })
+      // this.setState({ gatewayIp: null })
       this.setState({ deviceInfo: null })
       this.setState({ deviceState: null })
       this.setState({ walletData: null })
